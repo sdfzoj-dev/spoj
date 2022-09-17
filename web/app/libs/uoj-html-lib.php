@@ -257,7 +257,7 @@ function echoSubmission($submission, $config, $user) {
 	echo '<td>', '<a href="/submission/', $submission['id'], '">', $submission['language'], '</a>', '</td>';
 
 	if ($submission['tot_size'] < 1024) {
-		$size_str = $submission['tot_size'] . 'b';
+		$size_str = '<1kb';
 	} else {
 		$size_str = sprintf("%.1f", $submission['tot_size'] / 1024) . 'kb';
 	}
@@ -400,6 +400,8 @@ function echoSubmissionContent($submission, $requirement) {
 			switch ($file_language) {
 				case 'C++':
 				case 'C++11':
+				case 'C++14':
+				case 'C++17':
 					$sh_class = 'sh_cpp';
 					break;
 				case 'Python2':

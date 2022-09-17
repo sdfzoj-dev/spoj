@@ -154,6 +154,7 @@ class HTML {
 		$config = HTMLPurifier_Config::createDefault();
 		//$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 		$config->set('Cache.DefinitionImpl', null);
+		$config->set('HTML.SafeIframe',true);
 		$def = $config->getHTMLDefinition(true);
 		$def->addAttribute('span', 'data-rating', 'Number');
 		

@@ -86,7 +86,7 @@
 				$work_path = $this->prepare_dir;
 			}
 
-			$cmd_prefix = "$uojMainJudgerWorkPath/run/run_program >{$this->prepare_dir}/run_compiler_result.txt --in=/dev/null --out=stderr --err={$this->prepare_dir}/compiler_result.txt --tl=10 --ml=512 --ol=64 --type=compiler --work-path={$work_path}";
+			$cmd_prefix = "$uojMainJudgerWorkPath/run/run_program >{$this->prepare_dir}/run_compiler_result.txt --in=/dev/null --out=stderr --err={$this->prepare_dir}/compiler_result.txt --tl=10000 --ml=512 --ol=64 --type=compiler --work-path={$work_path}";
 			if (isset($config['need_include_header']) && $config['need_include_header']) {
 				exec("$cmd_prefix --add-readable-raw=$include_path/ /usr/bin/g++ -o $name {$config['src']} -I$include_path -lm -O2 -DONLINE_JUDGE");
 			} else {
@@ -122,9 +122,8 @@
 			global $uojMainJudgerWorkPath;
 			
 			$include_path = "$uojMainJudgerWorkPath/include";
-			$cmd_prefix = "$uojMainJudgerWorkPath/run/run_program >{$this->prepare_dir}/run_makefile_result.txt --in=/dev/null --out=stderr --err={$this->prepare_dir}/makefile_result.txt --tl=10 --ml=512 --ol=64 --type=compiler --work-path={$this->prepare_dir}";
-			exec("$cmd_prefix --add-readable-raw=$include_path/ /usr/bin/make INCLUDE_PATH=$include_path");
-			
+			$cmd_prefix = "$uojMainJudgerWorkPath/run/run_program >{$this->prepare_dir}/run_makefile_result.txt --in=/dev/null --out=stderr --err={$this->prepare_dir}/makefile_result.txt --tl=10000 --ml=512 --ol=64 --type=compiler --work-path={$this->prepare_dir}";
+			exec("$cmd_prefix --add-readable-raw=$include_path/ /usr/bin/make INCLUDE_PATH=$include_path");	
 			$fp = fopen("{$this->prepare_dir}/run_makefile_result.txt", "r");
 			if (fscanf($fp, '%d %d %d %d', $rs, $used_time, $used_memory, $exit_code) != 4) {
 				$rs = 7;
@@ -188,6 +187,9 @@
 				if (isset($this->allow_files['require']) && is_dir("{$this->upload_dir}/require")) {
 					$this->copy_to_prepare('require');
 				}
+
+				if(is_file("{$this->upload_dir}/statement.pdf"))
+                                        $this->copy_to_prepare("statement.pdf");
 
 				if ($this->check_conf_on('use_builtin_judger')) {
 					$n_tests = getUOJConfVal($this->problem_conf, 'n_tests', 10);

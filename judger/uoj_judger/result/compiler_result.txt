@@ -1,6 +1,0 @@
-answer.code: In function ‘main’:
-answer.code:1:38: warning: implicit declaration of function ‘printf’ [-Wimplicit-function-declaration]
- int main(){for(int i=1;i<=30000;i++) printf("?");return 0;}
-                                      ^~~~~~
-answer.code:1:38: warning: incompatible implicit declaration of built-in function ‘printf’
-answer.code:1:38: note: include ‘<stdio.h>’ or provide a declaration of ‘printf’

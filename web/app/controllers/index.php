@@ -2,6 +2,7 @@
 	$blogs = DB::selectAll("select blogs.id, title, poster, post_time from important_blogs, blogs where is_hidden = 0 and important_blogs.blog_id = blogs.id order by level desc, important_blogs.blog_id desc limit 5");
 ?>
 <?php echoUOJPageHeader(UOJConfig::$data['profile']['oj-name-short']) ?>
+
 <div class="card card-default">
 	<div class="card-body">
 		<div class="row">

@@ -45,6 +45,30 @@
 			$file_name = "/var/uoj_data/$id.zip";
 			$download_name = "problem_data_$id.zip";
 			break;
+		case 'statement':
+			if (!validateUInt($_GET['id']) || !($problem = queryProblemBrief($_GET['id']))) {
+                                become404Page();
+                        }
+
+                        $visible = isProblemVisibleToUser($problem, $myUser);
+                        if (!$visible && $myUser != null) {
+                                $result = DB::query("select contest_id from contests_problems where problem_id = {$_GET['id']}");
+                                while (list($contest_id) = DB::fetch($result, MYSQLI_NUM)) {
+                                        $contest = queryContest($contest_id);
+                                        genMoreContestInfo($contest);
+                                        if ($contest['cur_progress'] != CONTEST_NOT_STARTED && hasRegistered($myUser, $contest) && queryContestProblemRank($contest, $problem)) {
+                                                $visible = true;
+                                        }
+                                }
+                        }
+                        if (!$visible) {
+                                become404Page();
+                        }
+
+			$id=$_GET['id'];
+			$file_name="/var/uoj_data/$id/statement.pdf";
+			$download_name="problem_$id.pdf";
+			break;
 		default:
 			become404Page();
 	}
@@ -58,5 +82,6 @@
 	
 	header("X-Sendfile: $file_name");
 	header("Content-type: $mimetype");
+	//header("Content-Disposition: filename=$download_name$");
 	header("Content-Disposition: attachment; filename=$download_name");
 ?>

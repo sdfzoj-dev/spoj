@@ -194,7 +194,7 @@ argp run_program_argp = {
 RunProgramConfig run_program_config;
 
 void parse_args(int argc, char **argv) {
-	run_program_config.time_limit = 1;
+	run_program_config.time_limit = 1000;
 	run_program_config.real_time_limit = -1;
 	run_program_config.memory_limit = 256;
 	run_program_config.output_limit = 64;
